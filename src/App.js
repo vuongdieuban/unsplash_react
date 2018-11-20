@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ListView from './views/ListView'
+import {
+  getAPIKey,
+  getSecretKey,
+} from './Secrets';
 
 class App extends Component {
+
+  state = {
+    photos: [],
+  }
+
+  getListPhotos = async () => {
+    const IMG_PER_PAGE = 100;
+    const API_KEY = getAPIKey();
+    const SECRET_KEY = getSecretKey();
+    const api_call = await fetch(`https://api.unsplash.com/photos/?client_id=${API_KEY}&per_page=${IMG_PER_PAGE}`);
+    const data = await api_call.json();
+    this.setState({ photos: data });
+    console.log(this.state.photos);
+    const photos = this.state.photos;
+    console.log(photos[0].urls.full)
+  }
+
+  componentDidMount() {
+    this.getListPhotos();
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <ListView photos={this.state.photos} />
       </div>
     );
   }
