@@ -8,8 +8,8 @@ const ListView = (props) => {
                 <div className='row'>
                     {photos.map((photo) => {
                         return (
-                            <div className='col-lg-4' key={photo.id}>
-                                <img className="active-photo" src={photo.urls.full} alt={photo.id} />
+                            <div className='photo col-lg-4' key={photo.id}>
+                                <span><img className="active-photo" src={photo.urls.full} alt={photo.id} /></span>
                             </div>
                         );
                     })}
